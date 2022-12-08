@@ -11,7 +11,9 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
+    //щоб даний url був без захисту CSRF і в постмені відобразився json-формат
     protected $except = [
-        //
+        /* '/post/*', */
+     /*   '/login' */
     ];
 }

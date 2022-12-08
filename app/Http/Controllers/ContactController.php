@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\ContactFilter;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactRequest;
+use App\Http\Requests\FilterRequest;
 use App\Models\Contact;
 
 class ContactController extends Controller
@@ -21,15 +23,26 @@ class ContactController extends Controller
         return redirect()->route('home')->with('success', 'The message has been added.');
     }
 
-    public function allData()
+    public function allData(FilterRequest $request)
     {
 
         // return view('messages', ['data' => Contact::all()]);
         // $contact->orderBy('id', 'asc')->skip(1)->take(1)->get()
         // $contact->where('subject', '=', 'Hello test')->get()
         // $contact->get()
-        $contact = new Contact;
-        return view('messages', ['data' => $contact->all()]);
+       /*  $contact = new Contact;
+        return view('messages', ['data' => $contact->all()]); */
+
+        $data = $request->validated();
+
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+
+        $filter = app()->make(ContactFilter::class, ['queryParams' => array_filter($data)]);
+        
+        $contacts = Contact::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        return view('messages', compact('contacts'));
+
     }
 
     public function showOneMessage($id)

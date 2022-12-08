@@ -1,15 +1,27 @@
 @extends('layouts.app')
 
-@section('title-block')Home page @endsection
-
 @section('content')
-    <h1>Home page</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt voluptatibus tempora veniam aperiam deleniti omnis pariatur dolores non cupiditate vero ea asperiores mollitia quos, nostrum, molestiae sapiente quae. Eos, tenetur!</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>Home page</h1>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in!') }}
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+</div>
 @endsection
 
-@section('aside')
- @parent
- <p>Додатковий текст</p>
- 
-@endsection
-    
